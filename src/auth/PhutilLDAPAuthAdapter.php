@@ -146,6 +146,10 @@ final class PhutilLDAPAuthAdapter extends PhutilAuthAdapter {
     $parts = array_filter($parts);
 
     if ($parts) {
+      if (preg_match("/\p{Han}+/u", $parts[0])) {
+        $parts = array_reverse($parts);
+        return implode('', $parts);
+      }
       return implode(' ', $parts);
     }
 
