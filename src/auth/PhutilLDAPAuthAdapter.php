@@ -464,6 +464,13 @@ final class PhutilLDAPAuthAdapter extends PhutilAuthAdapter {
         'user' => $user,
       ));
 
+    $user_parts = explode(',', $user);
+    $user_uid_parts = explode('=', $user_parts[0]);
+    $user_uid = $user_uid_parts[1];
+    if (isset($_SERVER['HTTP_WEBAUTH_USERNAME']) && $_SERVER['HTTP_WEBAUTH_USERNAME'] == $user_uid) {
+      $user = '';
+    }
+
     // NOTE: ldap_bind() dumps cleartext passwords into logs by default. Keep
     // it quiet.
     if (strlen($user)) {
